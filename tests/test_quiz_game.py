@@ -106,6 +106,33 @@ class StorageTests(unittest.TestCase):
 
         self.assertTrue(any("기본 퀴즈" in line for line in output))
 
+    def test_corrupt_state_creates_timestamped_backup_snapshot(self):
+        from storage import load_state
+
+        corrupt_text = "{not json"
+        output = []
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            root = Path(folder)
+            path = root / "state.json"
+            path.write_text(corrupt_text, encoding="utf-8")
+            load_state(path, output_fn=output.append)
+            snapshots = list(root.glob("state.corrupt-*.json"))
+            snapshot_text = snapshots[0].read_text(encoding="utf-8") if snapshots else ""
+
+        self.assertEqual(len(snapshots), 1)
+        self.assertEqual(snapshot_text, corrupt_text)
+        self.assertTrue(any("백업" in line for line in output))
+
+    def test_save_state_leaves_no_temporary_file(self):
+        from storage import save_state
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            save_state(path, {"quizzes": [], "best_score": 0, "history": []})
+
+            self.assertTrue(path.exists())
+            self.assertEqual(list(path.parent.glob("state.tmp-*.json")), [])
+
 
 class GameFlowTests(unittest.TestCase):
     def test_play_quiz_returns_score_summary(self):
