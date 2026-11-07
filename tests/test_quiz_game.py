@@ -20,6 +20,18 @@ class QuizTests(unittest.TestCase):
             Quiz("문제", ["하나", "둘", "셋", "넷"], 5)
 
 
+class DefaultQuizTests(unittest.TestCase):
+    def test_default_quizzes_have_at_least_six_valid_questions(self):
+        from quiz import Quiz, default_quizzes
+
+        quizzes = default_quizzes()
+
+        self.assertGreaterEqual(len(quizzes), 6)
+        self.assertTrue(all(isinstance(item, Quiz) for item in quizzes))
+        self.assertTrue(all(len(item.choices) == 4 for item in quizzes))
+        self.assertEqual(len({item.question for item in quizzes}), len(quizzes))
+
+
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
         import game  # noqa: F401
