@@ -67,6 +67,46 @@ class QuizGame:
         except OSError as error:
             self.output_fn(f"저장에 실패했습니다: {error}")
 
+    def _read_text(self, prompt: str) -> str:
+        while True:
+            try:
+                value = self.input_fn(prompt).strip()
+            except (KeyboardInterrupt, EOFError) as error:
+                raise InputClosed from error
+            if value:
+                return value
+            self.output_fn("입력값은 비어 있을 수 없습니다.")
+
+    def add_quiz(self) -> None:
+        self.output_fn("새로운 퀴즈를 추가합니다.")
+        question = self._read_text("문제: ")
+        choices = [self._read_text(f"선택지 {index}: ") for index in range(1, 5)]
+        answer = read_int("정답 번호(1-4): ", 1, 4, self.input_fn, self.output_fn)
+        hint = self._read_text("힌트: ")
+        self.quizzes.append(Quiz(question, choices, answer, hint))
+        self.save()
+        self.output_fn("퀴즈가 추가되었습니다.")
+
+    def list_quizzes(self) -> None:
+        if not self.quizzes:
+            self.output_fn("등록된 퀴즈가 없습니다.")
+            return
+        self.output_fn(f"등록된 퀴즈 ({len(self.quizzes)}개)")
+        for index, quiz in enumerate(self.quizzes, 1):
+            self.output_fn(f"{index}. {quiz.question}")
+
+    def show_scores(self) -> None:
+        self.output_fn(f"최고 점수: {self.best_score}점")
+        if not self.history:
+            self.output_fn("아직 게임 기록이 없습니다.")
+            return
+        self.output_fn(f"게임 기록: {len(self.history)}회")
+        for record in self.history[-5:]:
+            self.output_fn(
+                f"{record.get('timestamp', '-')}: "
+                f"{record.get('correct', 0)}/{record.get('question_count', 0)}점"
+            )
+
     def play_quiz(self, quizzes: list[Quiz], count: int) -> dict:
         selected = quizzes[:count]
         correct = 0
@@ -94,12 +134,16 @@ class QuizGame:
                 choice = read_int("선택: ", 1, 5, self.input_fn, self.output_fn)
                 if choice == 1:
                     self.play_quiz(self.quizzes, len(self.quizzes))
+                elif choice == 2:
+                    self.add_quiz()
+                elif choice == 3:
+                    self.list_quizzes()
+                elif choice == 4:
+                    self.show_scores()
                 elif choice == 5:
                     self.save()
                     self.output_fn("게임을 종료합니다.")
                     return
-                else:
-                    self.output_fn("이 기능은 다음 단계에서 구현합니다.")
         except InputClosed:
             self.save()
             self.output_fn("입력이 종료되어 현재 상태를 저장하고 안전하게 종료합니다.")

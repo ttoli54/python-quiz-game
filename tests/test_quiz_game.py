@@ -131,6 +131,46 @@ class InputTests(unittest.TestCase):
             self.assertTrue(any("안전하게" in line for line in output))
 
 
+class ManagementTests(unittest.TestCase):
+    def test_add_quiz_rejects_blank_question_and_saves_valid_quiz(self):
+        from game import QuizGame
+        from storage import load_state
+
+        answers = iter(["", "새로운 문제", "첫 보기", "둘째 보기", "셋째 보기", "넷째 보기", "2", "힌트"])
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            output = []
+            game = QuizGame(path, input_fn=lambda _: next(answers), output_fn=output.append)
+
+            game.add_quiz()
+            saved = load_state(path)
+
+        self.assertEqual(game.quizzes[-1].question, "새로운 문제")
+        self.assertEqual(saved["quizzes"][-1]["answer"], 2)
+        self.assertTrue(any("비어 있을 수 없습니다" in line for line in output))
+
+    def test_list_quizzes_prints_questions(self):
+        from game import QuizGame
+
+        output = []
+        game = QuizGame(Path("unused.json"), input_fn=lambda _: "5", output_fn=output.append)
+
+        game.list_quizzes()
+
+        self.assertTrue(any("등록된 퀴즈" in line for line in output))
+        self.assertTrue(any("기생충" in line for line in output))
+
+    def test_show_scores_handles_empty_history(self):
+        from game import QuizGame
+
+        output = []
+        game = QuizGame(Path("unused.json"), input_fn=lambda _: "5", output_fn=output.append)
+
+        game.show_scores()
+
+        self.assertTrue(any("아직 게임 기록이 없습니다" in line for line in output))
+
+
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
         import game  # noqa: F401
