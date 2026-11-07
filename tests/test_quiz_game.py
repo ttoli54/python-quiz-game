@@ -103,6 +103,34 @@ class GameFlowTests(unittest.TestCase):
             self.assertTrue(any("종료" in line for line in output))
 
 
+class InputTests(unittest.TestCase):
+    def test_read_int_retries_after_blank_text_invalid_text_and_range(self):
+        from game import read_int
+
+        answers = iter(["", "abc", "0", "6", " 2 "])
+        output = []
+
+        result = read_int("번호: ", 1, 5, input_fn=lambda _: next(answers), output_fn=output.append)
+
+        self.assertEqual(result, 2)
+        self.assertEqual(len(output), 4)
+
+    def test_run_saves_and_returns_on_eof(self):
+        from game import QuizGame
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            output = []
+
+            def eof(_):
+                raise EOFError
+
+            QuizGame(path, input_fn=eof, output_fn=output.append).run()
+
+            self.assertTrue(path.exists())
+            self.assertTrue(any("안전하게" in line for line in output))
+
+
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
         import game  # noqa: F401
