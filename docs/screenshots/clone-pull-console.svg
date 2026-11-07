@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="430" viewBox="0 0 1180 430">
+  <rect width="1180" height="430" rx="12" fill="#111827"/>
+  <circle cx="28" cy="25" r="7" fill="#ef4444"/><circle cx="51" cy="25" r="7" fill="#f59e0b"/><circle cx="74" cy="25" r="7" fill="#22c55e"/>
+  <text x="30" y="70" fill="#93c5fd" font-family="Consolas, monospace" font-size="20">Git clone / commit / push / pull evidence</text>
+  <g fill="#e5e7eb" font-family="Consolas, monospace" font-size="17">
+    <text x="30" y="112">PS&gt; git clone https://github.com/ttoli54/python-quiz-game.git ..\python-quiz-game-clone</text>
+    <text x="30" y="140" fill="#86efac">별도 폴더에 clone 성공</text>
+    <text x="30" y="188">PS&gt; git push origin main</text>
+    <text x="30" y="216" fill="#86efac">0b27456..d346039  main -&gt; main</text>
+    <text x="30" y="264">PS&gt; git pull origin main</text>
+    <text x="30" y="292" fill="#86efac">0b27456..d346039  main -&gt; origin/main</text>
+    <text x="30" y="320" fill="#86efac">Updating 0b27456..d346039</text>
+    <text x="30" y="348" fill="#86efac">Fast-forward</text>
+    <text x="30" y="390" fill="#9ca3af">원문: docs/git-evidence.txt</text>
+  </g>
+</svg>

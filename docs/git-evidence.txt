@@ -1,6 +1,8 @@
 한국 영화 퀴즈 게임 Git 증빙
 수집일: 2026-11-07
 
+총 커밋 수: 19개 (아래 `git rev-list --count --all` 출력 기준)
+
 --- remote ---
 origin  https://github.com/ttoli54/python-quiz-game.git (fetch)
 origin  https://github.com/ttoli54/python-quiz-game.git (push)
@@ -27,6 +29,16 @@ origin  https://github.com/ttoli54/python-quiz-game.git (push)
 * 674769f feat: add Korean movie quiz dataset
 * 069cdda feat: add quiz model and validation
 * 09ee056 chore: initialize quiz game project
+
+--- branch creation and merge commands ---
+명령: git checkout -b codex/python-quiz-game
+결과: Switched to a new branch 'codex/python-quiz-game'
+명령: git checkout -b bonus-features
+결과: Switched to a new branch 'bonus-features'
+명령: git checkout master
+결과: Switched to branch 'master'
+명령: git merge --no-ff bonus-features -m "merge: integrate bonus quiz features"
+결과: Merge made by the 'ort' strategy.
 
 --- clone ---
 명령: git clone https://github.com/ttoli54/python-quiz-game.git ..\python-quiz-game-clone

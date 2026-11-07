@@ -11,6 +11,10 @@ from quiz import Quiz
 from storage import load_state, save_state
 
 
+SAVE_ERROR_MESSAGE = "저장에 실패했습니다."
+INPUT_CLOSED_MESSAGE = "입력이 종료되어 현재 상태를 저장하고 안전하게 종료합니다."
+
+
 class InputClosed(Exception):
     """Raised when the console input stream is interrupted or closed."""
 
@@ -67,7 +71,7 @@ class QuizGame:
         try:
             save_state(self.state_path, self._state())
         except OSError as error:
-            self.output_fn(f"저장에 실패했습니다: {error}")
+            self.output_fn(f"{SAVE_ERROR_MESSAGE} {error}")
 
     def _read_text(self, prompt: str) -> str:
         while True:
@@ -185,4 +189,4 @@ class QuizGame:
                     return
         except InputClosed:
             self.save()
-            self.output_fn("입력이 종료되어 현재 상태를 저장하고 안전하게 종료합니다.")
+            self.output_fn(INPUT_CLOSED_MESSAGE)

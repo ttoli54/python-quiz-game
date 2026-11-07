@@ -12,6 +12,9 @@ from typing import Callable
 
 from quiz import Quiz, default_quizzes
 
+RECOVERY_MESSAGE = "저장 데이터가 없거나 손상되어 기본 퀴즈로 시작합니다."
+BACKUP_FAILURE_MESSAGE = " 손상된 원본 백업에는 실패했습니다."
+
 
 def default_state() -> dict:
     return {
@@ -49,11 +52,11 @@ def load_state(path: Path, output_fn: Callable[[str], None] | None = None) -> di
             except OSError:
                 backup_path = None
         if output_fn:
-            message = "저장 데이터가 없거나 손상되어 기본 퀴즈로 시작합니다."
+            message = RECOVERY_MESSAGE
             if backup_path:
                 message += f" 손상된 원본은 {backup_path.name}으로 백업했습니다."
             elif with_backup:
-                message += " 손상된 원본 백업에는 실패했습니다."
+                message += BACKUP_FAILURE_MESSAGE
             output_fn(message)
         return default_state()
 

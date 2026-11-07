@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360">
+  <rect width="980" height="360" rx="12" fill="#111827"/>
+  <circle cx="28" cy="25" r="7" fill="#ef4444"/><circle cx="51" cy="25" r="7" fill="#f59e0b"/><circle cx="74" cy="25" r="7" fill="#22c55e"/>
+  <g fill="#e5e7eb" font-family="Consolas, monospace" font-size="18">
+    <text x="30" y="72">PS&gt; python -m unittest -v</text>
+    <text x="30" y="104" fill="#86efac">Ran 26 tests in 0.0s</text>
+    <text x="30" y="132" fill="#86efac">OK</text>
+    <text x="30" y="182" fill="#93c5fd">한국 영화 퀴즈 게임</text>
+    <text x="30" y="216">1. 퀴즈 풀기</text>
+    <text x="30" y="242">2. 퀴즈 추가</text>
+    <text x="30" y="268">3. 퀴즈 목록</text>
+    <text x="30" y="294">4. 점수 확인   5. 퀴즈 삭제   6. 종료</text>
+    <text x="30" y="330" fill="#9ca3af">실행 명령: python main.py</text>
+  </g>
+</svg>
