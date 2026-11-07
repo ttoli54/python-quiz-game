@@ -156,9 +156,9 @@ class ManagementTests(unittest.TestCase):
         from game import QuizGame
 
         output = []
-        game = QuizGame(Path("unused.json"), input_fn=lambda _: "5", output_fn=output.append)
-
-        game.list_quizzes()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: "5", output_fn=output.append)
+            game.list_quizzes()
 
         self.assertTrue(any("등록된 퀴즈" in line for line in output))
         self.assertTrue(any("기생충" in line for line in output))
@@ -167,9 +167,9 @@ class ManagementTests(unittest.TestCase):
         from game import QuizGame
 
         output = []
-        game = QuizGame(Path("unused.json"), input_fn=lambda _: "5", output_fn=output.append)
-
-        game.show_scores()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: "5", output_fn=output.append)
+            game.show_scores()
 
         self.assertTrue(any("아직 게임 기록이 없습니다" in line for line in output))
 
@@ -214,10 +214,10 @@ class BonusTests(unittest.TestCase):
 
         answers = iter(["0", "3", "2"])
         output = []
-        game = QuizGame(Path("unused.json"), input_fn=lambda _: next(answers), output_fn=output.append)
-        game.quizzes = self._quizzes()
-
-        count = game.ask_question_count()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: next(answers), output_fn=output.append)
+            game.quizzes = self._quizzes()
+            count = game.ask_question_count()
 
         self.assertEqual(count, 2)
         self.assertTrue(any("1-2" in line for line in output))
@@ -244,7 +244,8 @@ class MenuTests(unittest.TestCase):
         from game import QuizGame
 
         output = []
-        QuizGame(Path("unused.json"), input_fn=lambda _: "6", output_fn=output.append).run()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            QuizGame(Path(folder) / "state.json", input_fn=lambda _: "6", output_fn=output.append).run()
 
         menu_text = "\n".join(output)
         self.assertEqual(menu_text.count("5."), 1)
@@ -267,7 +268,8 @@ class CliSmokeTests(unittest.TestCase):
         from game import QuizGame
 
         output = []
-        QuizGame(Path("unused.json"), input_fn=lambda _: "6", output_fn=output.append).run()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            QuizGame(Path(folder) / "state.json", input_fn=lambda _: "6", output_fn=output.append).run()
 
         "\n".join(output).encode("cp949")
 
