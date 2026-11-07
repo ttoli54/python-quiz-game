@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import random
+from datetime import datetime
 from pathlib import Path
 from typing import Callable
 
@@ -95,6 +97,22 @@ class QuizGame:
         for index, quiz in enumerate(self.quizzes, 1):
             self.output_fn(f"{index}. {quiz.question}")
 
+    def ask_question_count(self) -> int:
+        if not self.quizzes:
+            self.output_fn("등록된 퀴즈가 없어 문제 수를 선택할 수 없습니다.")
+            return 0
+        return read_int("몇 문제를 풀까요? ", 1, len(self.quizzes), self.input_fn, self.output_fn)
+
+    def delete_quiz(self) -> None:
+        if not self.quizzes:
+            self.output_fn("삭제할 퀴즈가 없습니다.")
+            return
+        self.list_quizzes()
+        index = read_int("삭제할 퀴즈 번호: ", 1, len(self.quizzes), self.input_fn, self.output_fn)
+        deleted = self.quizzes.pop(index - 1)
+        self.save()
+        self.output_fn(f"퀴즈를 삭제했습니다: {deleted.question}")
+
     def show_scores(self) -> None:
         self.output_fn(f"최고 점수: {self.best_score}점")
         if not self.history:
@@ -108,10 +126,18 @@ class QuizGame:
             )
 
     def play_quiz(self, quizzes: list[Quiz], count: int) -> dict:
-        selected = quizzes[:count]
+        selected = random.sample(quizzes, min(count, len(quizzes)))
         correct = 0
+        hints = 0
         for number, quiz in enumerate(selected, 1):
             self.output_fn(f"\n[문제 {number}/{len(selected)}]\n{quiz.display()}")
+            try:
+                wants_hint = self.input_fn("힌트를 보시겠습니까? (y/n): ").strip().lower() == "y"
+            except (KeyboardInterrupt, EOFError) as error:
+                raise InputClosed from error
+            if wants_hint:
+                hints += 1
+                self.output_fn(f"힌트: {quiz.hint}")
             choice = read_int("정답 번호: ", 1, 4, self.input_fn, self.output_fn)
             if quiz.is_correct(choice):
                 correct += 1
@@ -121,19 +147,28 @@ class QuizGame:
         result = {
             "question_count": len(selected),
             "correct": correct,
-            "score": correct,
+            "hints": hints,
+            "score": max(0, correct - hints),
         }
-        self.best_score = max(self.best_score, correct)
+        result["timestamp"] = datetime.now().isoformat(timespec="seconds")
+        self.best_score = max(self.best_score, result["score"])
+        self.history.append(result.copy())
+        self.save()
         return result
 
     def run(self) -> None:
-        self.output_fn("🎬 한국 영화 퀴즈 게임")
+        self.output_fn("한국 영화 퀴즈 게임")
         try:
             while True:
-                self.output_fn("\n1. 퀴즈 풀기\n2. 퀴즈 추가\n3. 퀴즈 목록\n4. 점수 확인\n5. 종료")
-                choice = read_int("선택: ", 1, 5, self.input_fn, self.output_fn)
+                self.output_fn(
+                    "\n1. 퀴즈 풀기\n2. 퀴즈 추가\n3. 퀴즈 목록\n"
+                    "4. 점수 확인\n5. 퀴즈 삭제\n6. 종료"
+                )
+                choice = read_int("선택: ", 1, 6, self.input_fn, self.output_fn)
                 if choice == 1:
-                    self.play_quiz(self.quizzes, len(self.quizzes))
+                    count = self.ask_question_count()
+                    if count:
+                        self.play_quiz(self.quizzes, count)
                 elif choice == 2:
                     self.add_quiz()
                 elif choice == 3:
@@ -141,6 +176,8 @@ class QuizGame:
                 elif choice == 4:
                     self.show_scores()
                 elif choice == 5:
+                    self.delete_quiz()
+                elif choice == 6:
                     self.save()
                     self.output_fn("게임을 종료합니다.")
                     return

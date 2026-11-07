@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 class QuizTests(unittest.TestCase):
@@ -77,14 +78,16 @@ class GameFlowTests(unittest.TestCase):
         from game import QuizGame
         from quiz import Quiz
 
-        answers = iter(["1", "2"])
-        game = QuizGame(Path("unused.json"), input_fn=lambda _: next(answers), output_fn=lambda _: None)
+        answers = iter(["n", "1", "n", "2"])
         quizzes = [
             Quiz("첫 문제", ["정답", "오답", "오답", "오답"], 1),
             Quiz("둘째 문제", ["오답", "정답", "오답", "오답"], 2),
         ]
 
-        result = game.play_quiz(quizzes, 2)
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: next(answers), output_fn=lambda _: None)
+            with patch("game.random.sample", return_value=quizzes):
+                result = game.play_quiz(quizzes, 2)
 
         self.assertEqual(result["correct"], 2)
         self.assertEqual(result["score"], 2)
@@ -96,7 +99,7 @@ class GameFlowTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
             path = Path(folder) / "state.json"
             output = []
-            game = QuizGame(path, input_fn=lambda _: "5", output_fn=output.append)
+            game = QuizGame(path, input_fn=lambda _: "6", output_fn=output.append)
             game.run()
 
             self.assertTrue(path.exists())
@@ -169,6 +172,104 @@ class ManagementTests(unittest.TestCase):
         game.show_scores()
 
         self.assertTrue(any("아직 게임 기록이 없습니다" in line for line in output))
+
+
+class BonusTests(unittest.TestCase):
+    def _quizzes(self):
+        from quiz import Quiz
+
+        return [
+            Quiz("첫 문제", ["정답", "오답", "오답", "오답"], 1, "첫 힌트"),
+            Quiz("둘째 문제", ["오답", "정답", "오답", "오답"], 2, "둘째 힌트"),
+        ]
+
+    def test_play_quiz_uses_random_sample_without_changing_saved_order(self):
+        from game import QuizGame
+
+        quizzes = self._quizzes()
+        answers = iter(["n", "1", "n", "2"])
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: next(answers), output_fn=lambda _: None)
+            with patch("game.random.sample", return_value=[quizzes[1], quizzes[0]]):
+                result = game.play_quiz(quizzes, 2)
+
+        self.assertEqual(result["question_count"], 2)
+        self.assertEqual([quiz.question for quiz in quizzes], ["첫 문제", "둘째 문제"])
+
+    def test_hint_reduces_score_but_never_below_zero_and_records_history(self):
+        from game import QuizGame
+
+        answers = iter(["y", "1", "y", "2"])
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(Path(folder) / "state.json", input_fn=lambda _: next(answers), output_fn=lambda _: None)
+            result = game.play_quiz(self._quizzes(), 2)
+
+        self.assertEqual(result["hints"], 2)
+        self.assertEqual(result["score"], 0)
+        self.assertEqual(len(game.history), 1)
+        self.assertIn("timestamp", game.history[0])
+
+    def test_question_count_is_bounded(self):
+        from game import QuizGame
+
+        answers = iter(["0", "3", "2"])
+        output = []
+        game = QuizGame(Path("unused.json"), input_fn=lambda _: next(answers), output_fn=output.append)
+        game.quizzes = self._quizzes()
+
+        count = game.ask_question_count()
+
+        self.assertEqual(count, 2)
+        self.assertTrue(any("1-2" in line for line in output))
+
+    def test_delete_quiz_persists_and_empty_delete_is_safe(self):
+        from game import QuizGame
+        from storage import load_state
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            answers = iter(["1"])
+            game = QuizGame(path, input_fn=lambda _: next(answers), output_fn=lambda _: None)
+            original_first = game.quizzes[0].question
+            game.delete_quiz()
+            saved = load_state(path)
+
+            self.assertNotEqual(saved["quizzes"][0]["question"], original_first)
+            game.quizzes.clear()
+            game.delete_quiz()
+
+
+class MenuTests(unittest.TestCase):
+    def test_bonus_menu_lists_delete_and_exit_once(self):
+        from game import QuizGame
+
+        output = []
+        QuizGame(Path("unused.json"), input_fn=lambda _: "6", output_fn=output.append).run()
+
+        menu_text = "\n".join(output)
+        self.assertEqual(menu_text.count("5."), 1)
+        self.assertIn("5. 퀴즈 삭제", menu_text)
+        self.assertIn("6. 종료", menu_text)
+
+
+class CliSmokeTests(unittest.TestCase):
+    def test_main_starts_and_exits_cleanly(self):
+        from main import main
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            output = []
+            main(Path(folder) / "state.json", input_fn=lambda _: "6", output_fn=output.append)
+
+        self.assertTrue(any("한국 영화 퀴즈 게임" in line for line in output))
+        self.assertTrue(any("게임을 종료합니다" in line for line in output))
+
+    def test_cli_output_is_encodable_by_windows_korean_console(self):
+        from game import QuizGame
+
+        output = []
+        QuizGame(Path("unused.json"), input_fn=lambda _: "6", output_fn=output.append).run()
+
+        "\n".join(output).encode("cp949")
 
 
 class ProjectSkeletonTests(unittest.TestCase):
