@@ -1,0 +1,49 @@
+한국 영화 퀴즈 게임 Git 증빙
+수집일: 2026-11-07
+
+--- remote ---
+origin  https://github.com/ttoli54/python-quiz-game.git (fetch)
+origin  https://github.com/ttoli54/python-quiz-game.git (push)
+
+--- commit graph ---
+* d346039 docs: record clone and pull practice
+* 0b27456 fix: add state snapshots and atomic persistence
+*   54dad9a merge: combine GitHub initialization with local project
+|\
+| * f142949 Initial commit
+* 1fa20ec fix: recover malformed state and show final scores
+* 6b3d785 test: isolate CLI fixtures from project state
+*   4562114 merge: integrate bonus quiz features
+|\
+| * 0ab3c34 chore: normalize sample state file
+| * 2c02b33 fix: keep CLI output compatible with Windows console
+| * 04d362c docs: document quiz game and CLI usage
+| * 968b373 feat: add randomized quizzes hints deletion and history
+|/
+* 083ecad feat: add quiz management and score screens
+* 4f9ce3d fix: handle invalid input and safe exits
+* 87159c7 feat: implement basic quiz game flow
+* c9b66d4 feat: persist quiz state in JSON
+* 674769f feat: add Korean movie quiz dataset
+* 069cdda feat: add quiz model and validation
+* 09ee056 chore: initialize quiz game project
+
+--- clone ---
+명령: git clone https://github.com/ttoli54/python-quiz-game.git ..\python-quiz-game-clone
+결과: 별도 폴더에 clone 성공
+
+--- clone commit and push ---
+clone commit: d346039 docs: record clone and pull practice
+명령: git push origin main
+결과: 0b27456..d346039 main -> main
+
+--- original pull ---
+명령: git pull origin main
+결과:
+From https://github.com/ttoli54/python-quiz-game
+ * branch            main       -> FETCH_HEAD
+   0b27456..d346039  main       -> origin/main
+Updating 0b27456..d346039
+Fast-forward
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)

@@ -67,6 +67,14 @@
       "hint": "딸 예승의 아버지입니다."
     }
   ],
-  "best_score": 0,
-  "history": []
+  "best_score": 1,
+  "history": [
+    {
+      "question_count": 2,
+      "correct": 2,
+      "hints": 1,
+      "score": 1,
+      "timestamp": "2026-11-07T12:28:10"
+    }
+  ]
 }
