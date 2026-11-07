@@ -126,3 +126,5 @@ git remote -v
 ```
 
 로컬 `master` 브랜치를 원격 `main` 브랜치에 업로드했고, 원격 저장소의 초기 README 커밋과도 병합했습니다. 별도 폴더 clone → 변경·commit·push → 원본 pull 실습의 실제 출력은 `docs/git-evidence.txt`에 기록합니다.
+
+Clone/pull 실습 확인 줄입니다.
