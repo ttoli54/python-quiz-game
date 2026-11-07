@@ -182,7 +182,7 @@ git remote -v
 
 Clone/pull 실습 확인 줄입니다.
 
-총 커밋 수는 `git rev-list --count --all`로 확인했으며, 현재는 20개입니다. 커밋 메시지는 `feat`, `fix`, `docs`, `test`, `chore` 접두사를 사용하고 뒤에 변경 목적을 동사형으로 짧게 적습니다. 기능 브랜치는 `git merge --no-ff`로 병합해 통합 시점을 남기고, 병합 전후에 전체 테스트를 실행합니다.
+총 커밋 수는 `git rev-list --count --all`로 확인했으며, 최종 문서 반영 후 22개입니다. 커밋 메시지는 `feat`, `fix`, `docs`, `test`, `chore` 접두사를 사용하고 뒤에 변경 목적을 동사형으로 짧게 적습니다. 기능 브랜치는 `git merge --no-ff`로 병합해 통합 시점을 남기고, 병합 전후에 전체 테스트를 실행합니다.
 
 실제 clone·push·pull 콘솔 출력은 아래 시각 증빙과 원문 로그에서 확인할 수 있습니다. 이미지는 실행 결과를 터미널 형태로 정리한 CLI 증빙 이미지이며, 상세 원문은 `docs/git-evidence.txt`에 보존했습니다.
 
