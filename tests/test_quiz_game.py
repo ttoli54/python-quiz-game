@@ -252,6 +252,18 @@ class MenuTests(unittest.TestCase):
         self.assertIn("6. 종료", menu_text)
 
 
+class CliSmokeTests(unittest.TestCase):
+    def test_main_starts_and_exits_cleanly(self):
+        from main import main
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            output = []
+            main(Path(folder) / "state.json", input_fn=lambda _: "6", output_fn=output.append)
+
+        self.assertTrue(any("한국 영화 퀴즈 게임" in line for line in output))
+        self.assertTrue(any("게임을 종료합니다" in line for line in output))
+
+
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
         import game  # noqa: F401
