@@ -1,7 +1,7 @@
 한국 영화 퀴즈 게임 Git 증빙
 수집일: 2026-11-07
 
-총 커밋 수: 19개 (아래 `git rev-list --count --all` 출력 기준)
+총 커밋 수: 20개 (아래 `git rev-list --count --all` 출력 기준)
 
 --- remote ---
 origin  https://github.com/ttoli54/python-quiz-game.git (fetch)
