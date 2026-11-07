@@ -100,4 +100,6 @@ python -m unittest -v
 git log --oneline --graph --all
 ```
 
-GitHub 저장소 생성·공개·push와 별도 폴더 clone/pull은 사용자의 계정 권한이 필요한 단계입니다. 실제 수행한 뒤에만 원격 저장소 URL과 결과를 이 문서에 추가합니다.
+GitHub 원격 저장소: https://github.com/ttoli54/python-quiz-game
+
+로컬 `master` 브랜치를 원격 `main` 브랜치에 업로드합니다. 원격 저장소를 먼저 초기화한 커밋과 병합한 뒤 push했으며, 이후 `git clone`과 `git pull` 실습 결과는 실제 수행 후 추가합니다.
