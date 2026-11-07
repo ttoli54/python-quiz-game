@@ -157,7 +157,7 @@ class QuizGame:
         return result
 
     def run(self) -> None:
-        self.output_fn("🎬 한국 영화 퀴즈 게임")
+        self.output_fn("한국 영화 퀴즈 게임")
         try:
             while True:
                 self.output_fn(

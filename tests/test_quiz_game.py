@@ -263,6 +263,14 @@ class CliSmokeTests(unittest.TestCase):
         self.assertTrue(any("한국 영화 퀴즈 게임" in line for line in output))
         self.assertTrue(any("게임을 종료합니다" in line for line in output))
 
+    def test_cli_output_is_encodable_by_windows_korean_console(self):
+        from game import QuizGame
+
+        output = []
+        QuizGame(Path("unused.json"), input_fn=lambda _: "6", output_fn=output.append).run()
+
+        "\n".join(output).encode("cp949")
+
 
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
