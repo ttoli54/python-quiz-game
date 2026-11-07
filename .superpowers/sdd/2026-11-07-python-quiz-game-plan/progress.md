@@ -1,0 +1,1 @@
+# SDD ledger — plan: docs/superpowers/plans/2026-11-07-python-quiz-game-plan.md`n`nPre-flight: no shared interfaces yet; initial modules are created together and later tasks consume their documented interfaces.
