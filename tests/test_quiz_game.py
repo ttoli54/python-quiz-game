@@ -72,6 +72,37 @@ class StorageTests(unittest.TestCase):
         self.assertIn("history", state)
 
 
+class GameFlowTests(unittest.TestCase):
+    def test_play_quiz_returns_score_summary(self):
+        from game import QuizGame
+        from quiz import Quiz
+
+        answers = iter(["1", "2"])
+        game = QuizGame(Path("unused.json"), input_fn=lambda _: next(answers), output_fn=lambda _: None)
+        quizzes = [
+            Quiz("첫 문제", ["정답", "오답", "오답", "오답"], 1),
+            Quiz("둘째 문제", ["오답", "정답", "오답", "오답"], 2),
+        ]
+
+        result = game.play_quiz(quizzes, 2)
+
+        self.assertEqual(result["correct"], 2)
+        self.assertEqual(result["score"], 2)
+        self.assertEqual(result["question_count"], 2)
+
+    def test_run_exit_saves_state(self):
+        from game import QuizGame
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            output = []
+            game = QuizGame(path, input_fn=lambda _: "5", output_fn=output.append)
+            game.run()
+
+            self.assertTrue(path.exists())
+            self.assertTrue(any("종료" in line for line in output))
+
+
 class ProjectSkeletonTests(unittest.TestCase):
     def test_modules_are_importable(self):
         import game  # noqa: F401
