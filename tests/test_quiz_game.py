@@ -72,6 +72,40 @@ class StorageTests(unittest.TestCase):
         self.assertGreaterEqual(len(state["quizzes"]), 6)
         self.assertIn("history", state)
 
+    def test_invalid_nested_values_recover_to_default_state(self):
+        from storage import load_state
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "quizzes": [
+                            {
+                                "question": "문제",
+                                "choices": ["정상", None, "셋", "넷"],
+                                "answer": 1,
+                            }
+                        ],
+                        "best_score": 0,
+                        "history": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state = load_state(path)
+
+        self.assertGreaterEqual(len(state["quizzes"]), 6)
+
+    def test_recovery_notifies_user(self):
+        from storage import load_state
+
+        output = []
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            load_state(Path(folder) / "missing.json", output_fn=output.append)
+
+        self.assertTrue(any("기본 퀴즈" in line for line in output))
+
 
 class GameFlowTests(unittest.TestCase):
     def test_play_quiz_returns_score_summary(self):
@@ -172,6 +206,34 @@ class ManagementTests(unittest.TestCase):
             game.show_scores()
 
         self.assertTrue(any("아직 게임 기록이 없습니다" in line for line in output))
+
+    def test_show_scores_displays_hint_deducted_score(self):
+        from game import QuizGame
+        from storage import save_state
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            path = Path(folder) / "state.json"
+            save_state(
+                path,
+                {
+                    "quizzes": [],
+                    "best_score": 0,
+                    "history": [
+                        {
+                            "timestamp": "2026-11-07T12:00:00",
+                            "question_count": 1,
+                            "correct": 1,
+                            "hints": 1,
+                            "score": 0,
+                        }
+                    ],
+                },
+            )
+            output = []
+            game = QuizGame(path, input_fn=lambda _: "6", output_fn=output.append)
+            game.show_scores()
+
+        self.assertIn("기록 점수: 0점", output[-1])
 
 
 class BonusTests(unittest.TestCase):

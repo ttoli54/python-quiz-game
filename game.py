@@ -51,7 +51,7 @@ class QuizGame:
         self.state_path = Path(state_path)
         self.input_fn = input_fn
         self.output_fn = output_fn
-        state = load_state(self.state_path)
+        state = load_state(self.state_path, self.output_fn)
         self.quizzes = [Quiz.from_dict(item) for item in state["quizzes"]]
         self.best_score = state["best_score"]
         self.history = state["history"]
@@ -122,7 +122,9 @@ class QuizGame:
         for record in self.history[-5:]:
             self.output_fn(
                 f"{record.get('timestamp', '-')}: "
-                f"{record.get('correct', 0)}/{record.get('question_count', 0)}점"
+                f"기록 점수: {record.get('score', 0)}점 "
+                f"({record.get('correct', 0)}/{record.get('question_count', 0)}, "
+                f"힌트 {record.get('hints', 0)}회)"
             )
 
     def play_quiz(self, quizzes: list[Quiz], count: int) -> dict:

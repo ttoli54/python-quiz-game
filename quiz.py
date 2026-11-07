@@ -13,13 +13,13 @@ class Quiz:
     hint: str = ""
 
     def __post_init__(self) -> None:
-        if not self.question.strip():
+        if not isinstance(self.question, str) or not self.question.strip():
             raise ValueError("질문은 비어 있을 수 없습니다.")
-        if len(self.choices) != 4:
+        if not isinstance(self.choices, list) or len(self.choices) != 4:
             raise ValueError("선택지는 정확히 4개여야 합니다.")
-        if any(not choice.strip() for choice in self.choices):
+        if any(not isinstance(choice, str) or not choice.strip() for choice in self.choices):
             raise ValueError("선택지는 비어 있을 수 없습니다.")
-        if self.answer not in range(1, 5):
+        if isinstance(self.answer, bool) or not isinstance(self.answer, int) or self.answer not in range(1, 5):
             raise ValueError("정답 번호는 1부터 4까지여야 합니다.")
 
     def display(self) -> str:
@@ -41,10 +41,10 @@ class Quiz:
     @classmethod
     def from_dict(cls, data: dict) -> "Quiz":
         return cls(
-            question=str(data["question"]),
-            choices=list(data["choices"]),
-            answer=int(data["answer"]),
-            hint=str(data.get("hint", "")),
+            question=data["question"],
+            choices=data["choices"],
+            answer=data["answer"],
+            hint=data.get("hint", ""),
         )
 
 

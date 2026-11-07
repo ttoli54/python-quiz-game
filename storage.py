@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Callable
 
 from quiz import Quiz, default_quizzes
 
@@ -32,12 +33,17 @@ def _is_valid_state(state: object) -> bool:
     return all(isinstance(item, dict) for item in state["history"])
 
 
-def load_state(path: Path) -> dict:
+def load_state(path: Path, output_fn: Callable[[str], None] | None = None) -> dict:
+    def recover() -> dict:
+        if output_fn:
+            output_fn("저장 데이터가 없거나 손상되어 기본 퀴즈로 시작합니다.")
+        return default_state()
+
     try:
         state = json.loads(path.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError, OSError, UnicodeDecodeError):
-        return default_state()
-    return state if _is_valid_state(state) else default_state()
+        return recover()
+    return state if _is_valid_state(state) else recover()
 
 
 def save_state(path: Path, state: dict) -> None:
