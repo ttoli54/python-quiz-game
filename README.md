@@ -179,11 +179,14 @@ python -m unittest -v
 
 ![랜덤 출제와 힌트 감점 실행 화면](docs/screenshots/hint-random-run.png)
 
+![퀴즈 추가·목록·점수 확인 화면](docs/screenshots/management-run.png)
+
 ![전체 단위 테스트 실행 화면](docs/screenshots/unittest-run.png)
 
 원문 실행 로그는 다음 파일에 보존했습니다.
 
 - `docs/evidence/hint-random-run.txt`
+- `docs/evidence/management-run.txt`
 - `docs/evidence/unittest-run.txt`
 - `capture_evidence.py`
 

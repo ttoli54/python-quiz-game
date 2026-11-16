@@ -31,7 +31,7 @@ test_state_missing_required_key_recovers (tests.test_quiz_game.StorageTests.test
 test_valid_state_round_trips_and_corrupt_state_recovers (tests.test_quiz_game.StorageTests.test_valid_state_round_trips_and_corrupt_state_recovers) ... ok
 
 ----------------------------------------------------------------------
-Ran 27 tests in 0.301s
+Ran 27 tests in 0.248s
 
 OK
 

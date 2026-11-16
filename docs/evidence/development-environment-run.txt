@@ -15,10 +15,10 @@ origin	https://github.com/ttoli54/python-quiz-game.git (push)
 [exit code: 0]
 $ git status --short --branch
 ## main...origin/main
- M README.md
  M capture_evidence.py
  M docs/evidence/unittest-run.html
  M docs/evidence/unittest-run.txt
- M docs/git-evidence.txt
+?? docs/evidence/management-run.html
+?? docs/evidence/management-run.txt
 
 [exit code: 0]

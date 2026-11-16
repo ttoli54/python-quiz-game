@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -68,6 +69,26 @@ def main() -> int:
             "한국 영화 퀴즈 - 랜덤 출제와 힌트 감점",
             "random.seed(7) | python -c ...",
             run_command([sys.executable, "-c", game_code], game_input),
+        )
+
+        shutil.copy2(ROOT / "state.json", state_path)
+        management_input = "\n".join(
+            [
+                "2",
+                "영화 '범죄도시'의 주연 배우는 누구인가요?",
+                "마동석", "송강호", "황정민", "류승완",
+                "1",
+                "주먹이 강한 배우입니다.",
+                "3",
+                "4",
+                "6",
+            ]
+        ) + "\n"
+        write_terminal_page(
+            "management-run.html",
+            "한국 영화 퀴즈 - 추가·목록·점수 확인",
+            "python main.py (add -> list -> score -> exit)",
+            run_command([sys.executable, "-c", f"from pathlib import Path; from main import main; main(Path(r'{state_path}'))"], management_input),
         )
 
     write_terminal_page(
