@@ -163,7 +163,28 @@ state.json 읽기
 
 ## 테스트
 
-`tests/test_quiz_game.py`는 문제 검증과 JSON 변환, 기본 데이터 6문제, 손상 파일 복구, 메뉴 흐름, 입력 재시도, 안전 종료, 문제 추가·목록·삭제, 랜덤 출제, 힌트 감점, 점수 이력을 확인합니다.
+`tests/test_quiz_game.py`는 문제 검증과 JSON 변환, 기본 데이터 6문제, 손상 파일 복구, 메뉴 흐름, 입력 재시도, 안전 종료, 문제 추가·목록·삭제, 랜덤 출제, 힌트 감점, 점수 이력을 확인합니다. 현재 전체 테스트 27개가 통과합니다.
+
+## 실제 실행 화면 및 테스트 결과
+
+피드백을 반영해 README의 기능 설명만으로 끝내지 않고, 실제 실행 결과를 화면 증거로 추가했습니다. 고정된 랜덤 시드로 2문제를 출제하여 출제 순서가 섞이는 과정, 첫 문제에서 힌트를 1회 사용한 뒤 정답 2개에 대해 최종 점수가 1점으로 계산되는 결과, 최고 점수 저장 결과를 한 화면에서 확인할 수 있습니다.
+
+재현 명령:
+
+```powershell
+python capture_evidence.py
+python -m unittest -v
+```
+
+![랜덤 출제와 힌트 감점 실행 화면](docs/screenshots/hint-random-run.png)
+
+![전체 단위 테스트 실행 화면](docs/screenshots/unittest-run.png)
+
+원문 실행 로그는 다음 파일에 보존했습니다.
+
+- `docs/evidence/hint-random-run.txt`
+- `docs/evidence/unittest-run.txt`
+- `capture_evidence.py`
 
 ## Git 실습 및 증빙
 

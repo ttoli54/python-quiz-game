@@ -1,0 +1,38 @@
+실행 명령: python -m unittest -v
+
+
+[stderr]
+test_delete_quiz_persists_and_empty_delete_is_safe (tests.test_quiz_game.BonusTests.test_delete_quiz_persists_and_empty_delete_is_safe) ... ok
+test_hint_reduces_score_but_never_below_zero_and_records_history (tests.test_quiz_game.BonusTests.test_hint_reduces_score_but_never_below_zero_and_records_history) ... ok
+test_play_quiz_uses_random_sample_without_changing_saved_order (tests.test_quiz_game.BonusTests.test_play_quiz_uses_random_sample_without_changing_saved_order) ... ok
+test_question_count_is_bounded (tests.test_quiz_game.BonusTests.test_question_count_is_bounded) ... ok
+test_run_displays_hint_deduction_and_final_score (tests.test_quiz_game.BonusTests.test_run_displays_hint_deduction_and_final_score) ... ok
+test_cli_output_is_encodable_by_windows_korean_console (tests.test_quiz_game.CliSmokeTests.test_cli_output_is_encodable_by_windows_korean_console) ... ok
+test_main_starts_and_exits_cleanly (tests.test_quiz_game.CliSmokeTests.test_main_starts_and_exits_cleanly) ... ok
+test_default_quizzes_have_at_least_six_valid_questions (tests.test_quiz_game.DefaultQuizTests.test_default_quizzes_have_at_least_six_valid_questions) ... ok
+test_play_quiz_returns_score_summary (tests.test_quiz_game.GameFlowTests.test_play_quiz_returns_score_summary) ... ok
+test_run_exit_saves_state (tests.test_quiz_game.GameFlowTests.test_run_exit_saves_state) ... ok
+test_read_int_retries_after_blank_text_invalid_text_and_range (tests.test_quiz_game.InputTests.test_read_int_retries_after_blank_text_invalid_text_and_range) ... ok
+test_run_saves_and_returns_on_eof (tests.test_quiz_game.InputTests.test_run_saves_and_returns_on_eof) ... ok
+test_add_quiz_rejects_blank_question_and_saves_valid_quiz (tests.test_quiz_game.ManagementTests.test_add_quiz_rejects_blank_question_and_saves_valid_quiz) ... ok
+test_list_quizzes_prints_questions (tests.test_quiz_game.ManagementTests.test_list_quizzes_prints_questions) ... ok
+test_show_scores_displays_hint_deducted_score (tests.test_quiz_game.ManagementTests.test_show_scores_displays_hint_deducted_score) ... ok
+test_show_scores_handles_empty_history (tests.test_quiz_game.ManagementTests.test_show_scores_handles_empty_history) ... ok
+test_bonus_menu_lists_delete_and_exit_once (tests.test_quiz_game.MenuTests.test_bonus_menu_lists_delete_and_exit_once) ... ok
+test_modules_are_importable (tests.test_quiz_game.ProjectSkeletonTests.test_modules_are_importable) ... ok
+test_quiz_checks_answers_and_round_trips_to_json (tests.test_quiz_game.QuizTests.test_quiz_checks_answers_and_round_trips_to_json) ... ok
+test_quiz_requires_four_choices_and_valid_answer (tests.test_quiz_game.QuizTests.test_quiz_requires_four_choices_and_valid_answer) ... ok
+test_corrupt_state_creates_timestamped_backup_snapshot (tests.test_quiz_game.StorageTests.test_corrupt_state_creates_timestamped_backup_snapshot) ... ok
+test_invalid_nested_values_recover_to_default_state (tests.test_quiz_game.StorageTests.test_invalid_nested_values_recover_to_default_state) ... ok
+test_missing_file_returns_default_state (tests.test_quiz_game.StorageTests.test_missing_file_returns_default_state) ... ok
+test_recovery_notifies_user (tests.test_quiz_game.StorageTests.test_recovery_notifies_user) ... ok
+test_save_state_leaves_no_temporary_file (tests.test_quiz_game.StorageTests.test_save_state_leaves_no_temporary_file) ... ok
+test_state_missing_required_key_recovers (tests.test_quiz_game.StorageTests.test_state_missing_required_key_recovers) ... ok
+test_valid_state_round_trips_and_corrupt_state_recovers (tests.test_quiz_game.StorageTests.test_valid_state_round_trips_and_corrupt_state_recovers) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.247s
+
+OK
+
+[exit code: 0]

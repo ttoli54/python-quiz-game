@@ -174,7 +174,14 @@ class QuizGame:
                 if choice == 1:
                     count = self.ask_question_count()
                     if count:
-                        self.play_quiz(self.quizzes, count)
+                        result = self.play_quiz(self.quizzes, count)
+                        self.output_fn(
+                            f"\n퀴즈 결과: {result['correct']}/{result['question_count']} 정답"
+                        )
+                        self.output_fn(
+                            f"힌트 사용: {result['hints']}회 | 최종 점수: {result['score']}점"
+                        )
+                        self.output_fn(f"현재 최고 점수: {self.best_score}점")
                 elif choice == 2:
                     self.add_quiz()
                 elif choice == 3:

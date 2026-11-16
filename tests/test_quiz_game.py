@@ -298,6 +298,26 @@ class BonusTests(unittest.TestCase):
         self.assertEqual(len(game.history), 1)
         self.assertIn("timestamp", game.history[0])
 
+    def test_run_displays_hint_deduction_and_final_score(self):
+        from game import QuizGame
+
+        quizzes = self._quizzes()
+        answers = iter(["1", "2", "y", "1", "n", "2", "6"])
+        output = []
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            game = QuizGame(
+                Path(folder) / "state.json",
+                input_fn=lambda _: next(answers),
+                output_fn=output.append,
+            )
+            game.quizzes = quizzes
+            with patch("game.random.sample", return_value=quizzes):
+                game.run()
+
+        transcript = "\n".join(output)
+        self.assertIn("힌트 사용: 1회", transcript)
+        self.assertIn("최종 점수: 1점", transcript)
+
     def test_question_count_is_bounded(self):
         from game import QuizGame
 
