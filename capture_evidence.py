@@ -105,8 +105,6 @@ def main() -> int:
             run_command(["git", "--version"]),
             "$ git remote -v",
             run_command(["git", "remote", "-v"]),
-            "$ git status --short --branch",
-            run_command(["git", "status", "--short", "--branch"]),
         ]
     )
     write_terminal_page(

@@ -1,7 +1,8 @@
 실행 명령: git log --oneline --graph --decorate --all
 
 $ git log --oneline --graph --decorate --all -20
-* a89a981 (HEAD -> main, origin/main, origin/HEAD) docs: add requirement verification evidence
+* f943625 (HEAD -> main, origin/main, origin/HEAD) docs: add complete requirement screenshots
+* a89a981 docs: add requirement verification evidence
 * e5047ec Add quiz execution evidence and score summary
 * df3c908 docs: record final evidence count
 * 229944e docs: update final commit count
@@ -23,10 +24,9 @@ $ git log --oneline --graph --decorate --all -20
 |/
 * 083ecad feat: add quiz management and score screens
 * 4f9ce3d fix: handle invalid input and safe exits
-* 87159c7 feat: implement basic quiz game flow
 
 [exit code: 0]
 $ git rev-list --count --all
-24
+25
 
 [exit code: 0]
