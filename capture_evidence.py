@@ -76,6 +76,38 @@ def main() -> int:
         "python -m unittest -v",
         run_command([sys.executable, "-m", "unittest", "-v"]),
     )
+    development_output = "\n".join(
+        [
+            "$ python --version",
+            run_command([sys.executable, "--version"]),
+            "$ git --version",
+            run_command(["git", "--version"]),
+            "$ git remote -v",
+            run_command(["git", "remote", "-v"]),
+            "$ git status --short --branch",
+            run_command(["git", "status", "--short", "--branch"]),
+        ]
+    )
+    write_terminal_page(
+        "development-environment-run.html",
+        "한국 영화 퀴즈 - development environment",
+        "python --version | git --version | git remote -v",
+        development_output,
+    )
+    git_log_output = "\n".join(
+        [
+            "$ git log --oneline --graph --decorate --all -20",
+            run_command(["git", "log", "--oneline", "--graph", "--decorate", "--all", "-20"]),
+            "$ git rev-list --count --all",
+            run_command(["git", "rev-list", "--count", "--all"]),
+        ]
+    )
+    write_terminal_page(
+        "git-log-run.html",
+        "한국 영화 퀴즈 - git history",
+        "git log --oneline --graph --decorate --all",
+        git_log_output,
+    )
     print("HTML/TXT evidence pages written to docs/evidence")
     return 0
 

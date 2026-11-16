@@ -1,0 +1,24 @@
+실행 명령: python --version | git --version | git remote -v
+
+$ python --version
+Python 3.15.2
+
+[exit code: 0]
+$ git --version
+git version 2.56.0.windows.4
+
+[exit code: 0]
+$ git remote -v
+origin	https://github.com/ttoli54/python-quiz-game.git (fetch)
+origin	https://github.com/ttoli54/python-quiz-game.git (push)
+
+[exit code: 0]
+$ git status --short --branch
+## main...origin/main
+ M README.md
+ M capture_evidence.py
+ M docs/evidence/unittest-run.html
+ M docs/evidence/unittest-run.txt
+ M docs/git-evidence.txt
+
+[exit code: 0]

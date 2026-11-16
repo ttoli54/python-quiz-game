@@ -1,0 +1,32 @@
+실행 명령: git log --oneline --graph --decorate --all
+
+$ git log --oneline --graph --decorate --all -20
+* e5047ec (HEAD -> main, origin/main, origin/HEAD) Add quiz execution evidence and score summary
+* df3c908 docs: record final evidence count
+* 229944e docs: update final commit count
+* 2fa522c docs: strengthen evaluation evidence and design notes
+* 85e383b docs: add Git workflow evidence
+* d346039 docs: record clone and pull practice
+* 0b27456 fix: add state snapshots and atomic persistence
+*   54dad9a merge: combine GitHub initialization with local project
+|\
+| * f142949 Initial commit
+* 1fa20ec fix: recover malformed state and show final scores
+* 6b3d785 test: isolate CLI fixtures from project state
+*   4562114 merge: integrate bonus quiz features
+|\
+| * 0ab3c34 chore: normalize sample state file
+| * 2c02b33 fix: keep CLI output compatible with Windows console
+| * 04d362c docs: document quiz game and CLI usage
+| * 968b373 feat: add randomized quizzes hints deletion and history
+|/
+* 083ecad feat: add quiz management and score screens
+* 4f9ce3d fix: handle invalid input and safe exits
+* 87159c7 feat: implement basic quiz game flow
+* c9b66d4 feat: persist quiz state in JSON
+
+[exit code: 0]
+$ git rev-list --count --all
+23
+
+[exit code: 0]

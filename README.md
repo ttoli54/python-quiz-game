@@ -74,6 +74,7 @@ python -m unittest -v
 ├── game.py       # QuizGame 클래스, 메뉴와 게임 흐름
 ├── storage.py    # state.json 읽기·쓰기·복구
 ├── state.json    # 문제, 최고 점수, 게임 기록
+├── capture_evidence.py # 실행 로그·화면 증거 재생성
 ├── tests/
 │   └── test_quiz_game.py
 └── docs/superpowers/
@@ -203,13 +204,19 @@ git remote -v
 
 Clone/pull 실습 확인 줄입니다.
 
-총 커밋 수는 `git rev-list --count --all`로 확인했으며, 최종 문서 반영 후 22개입니다. 커밋 메시지는 `feat`, `fix`, `docs`, `test`, `chore` 접두사를 사용하고 뒤에 변경 목적을 동사형으로 짧게 적습니다. 기능 브랜치는 `git merge --no-ff`로 병합해 통합 시점을 남기고, 병합 전후에 전체 테스트를 실행합니다.
+총 커밋 수는 `git rev-list --count --all`로 확인할 수 있으며, 현재 저장소는 10개 이상의 의미 있는 커밋을 포함합니다. 커밋 메시지는 `feat`, `fix`, `docs`, `test`, `chore` 접두사를 사용하고 뒤에 변경 목적을 동사형으로 짧게 적습니다. 기능 브랜치는 `git merge --no-ff`로 병합해 통합 시점을 남기고, 병합 전후에 전체 테스트를 실행합니다.
 
 실제 clone·push·pull 콘솔 출력은 아래 시각 증빙과 원문 로그에서 확인할 수 있습니다. 이미지는 실행 결과를 터미널 형태로 정리한 CLI 증빙 이미지이며, 상세 원문은 `docs/git-evidence.txt`에 보존했습니다.
 
 ![clone, push, pull CLI 증빙](docs/screenshots/clone-pull-console.svg)
 
 ![메뉴와 테스트 CLI 증빙](docs/screenshots/menu-and-tests.svg)
+
+개발환경 설정과 Git 이력 요구사항도 실제 명령 출력으로 증빙했습니다.
+
+![개발환경 설정 화면](docs/screenshots/development-environment-run.png)
+
+![Git log 그래프 화면](docs/screenshots/git-log-run.png)
 
 ## 변경 요청 시 작업 순서
 
